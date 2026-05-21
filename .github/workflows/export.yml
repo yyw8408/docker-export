@@ -1,0 +1,15 @@
+name: Export Docker Image
+on: workflow_dispatch
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull and export image
+        run: |
+          docker pull node:20-alpine
+          docker save node:20-alpine | gzip > node-20-alpine.tar.gz
+      - uses: actions/upload-artifact@v4
+        with:
+          name: node-20-alpine
+          path: node-20-alpine.tar.gz
+          retention-days: 1
